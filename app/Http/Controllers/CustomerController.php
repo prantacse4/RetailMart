@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Balance;
 use App\Models\customer;
+use App\Models\supplier;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -37,7 +40,13 @@ class CustomerController extends Controller
             'phone' => 'required|max:255'
         ]);
 
+        $data = $request->input();
+
+        $cus_name = $data['cus_name'];
+        $balance = 0;
+
         customer::create($request->all());
+        Balance::create(['cus_name'=>$cus_name, 'balance'=>$balance]);
         return redirect(route('customer'))->with('message','Supplier added successfully!');
     }
 

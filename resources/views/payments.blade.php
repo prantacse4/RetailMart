@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 @section('pagename')
-    Home
+    Products
 @endsection
 
 @section('content')
@@ -75,14 +75,14 @@
 
       {{-- Links  --}}
       <li>
-        <a href="/" class="nav-link text-white active">
+        <a href="/" class="nav-link text-white ">
           <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
           Dashboard
         </a>
       </li>
       
       <li>
-        <a href="{{ route('products') }}" class="nav-link text-white">
+        <a href="{{ route('products') }}" class="nav-link active text-white">
           <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
           Products
         </a>
@@ -119,13 +119,6 @@
           Customers
         </a>
       </li>
-
-      <li>
-        <a href="{{ route('balance') }}" class="nav-link text-white">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-          Payments
-        </a>
-      </li>
     </ul>
 
       {{-- Links  --}}
@@ -154,119 +147,34 @@
 
 
   <div class="container">
-    <div class="card-header"><h4>Dashboard</h5></div>
+    <div class="card-header myheader"><h4>Customer Balance</h5><span><a href="{{ route('add_balance') }}" class="btn btn-success textright">Add Payment</a></span></div>
 
-      <div class="container">
-        <div class="card-header myheader"><h4>Purchase</h5><span><a href="{{ route('add_purchase') }}" class="btn btn-success textright">Add Purchase</a></span></div>
-    
-            @if(session()->has('message'))
-             <div class="alert alert-success">{{session()->get('message')}}</div>
-             @endif
-             <div class="card-header">Total Purchase = {{$total_purchase}}</div>
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Purchase ID</th>
-                    <th scope="col">Sale Date</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Sold Price</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Supplier</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    @foreach ($purchases as $purchase)
-                  <tr>
-    
-                    <td>{{$purchase->id}}</td>
-                    <td>{{$purchase->created_at}}</td>
-                    <td>{{$purchase->pro_quantity}}</td>
-                    <td>{{$purchase->pro_pur}}</td>
-                    @foreach ($products as $pro)
-                        @if ($pro->id == $purchase->pro_id)
-                            <td>{{$pro->pro_name}}</td>
-                        @endif
-                    @endforeach
-    
-                    @foreach ($suppliers as $sup)
-                        @if ($sup->id == $purchase->sup_id)
-                            <td>{{$sup->sup_name}}</td>
-                        @endif
-                    @endforeach
-                    
-                    
-                  </tr>
-                  @endforeach
-                  
-                 
-                </tbody>
-              </table>
-    
-      </div>
-
-
-
-
-      <div class="container">
-        <div class="card-header myheader"><h4>Sale</h5><span><a href="{{ route('add_sale') }}" class="btn btn-success textright">Add Sale</a></span></div>
-    
-            @if(session()->has('message'))
-             <div class="alert alert-success">{{session()->get('message')}}</div>
-             @endif
-             <div class="card-header">Total Sale = {{$total_sale}}</div>
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Sale ID</th>
-                    <th scope="col">Sale Date</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Sold Price</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Customer</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    @foreach ($sales as $sale)
-                  <tr>
-    
-                    <td>{{$sale->id}}</td>
-                    <td>{{$sale->created_at}}</td>
-                    <td>{{$sale->pro_quantity}}</td>
-                    <td>{{$sale->pro_sell}}</td>
-                    @foreach ($products as $pro)
-                        @if ($pro->id == $sale->pro_id)
-                            <td>{{$pro->pro_name}}</td>
-                        @endif
-                    @endforeach
-    
-                    @foreach ($customers as $cus)
-                        @if ($cus->id == $sale->cus_id)
-                            <td>{{$cus->cus_name}}</td>
-                        @endif
-                    @endforeach
-                    
-                    
-                  </tr>
-                  @endforeach
-                  
-                 
-                </tbody>
-              </table>
-    
-      </div>
-    
-    
- 
-
+        @if(session()->has('message'))
+         <div class="alert alert-success">{{session()->get('message')}}</div>
+         @endif
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Customer Name</th>
+                <th scope="col">Balance</th>
+              </tr>
+            </thead>
+            <tbody>
+                @foreach ($balances as $balance)
+              <tr>
+                <td>{{$balance->cus_name}}</td>
+                <td>{{$balance->balance}}</td>
+              </tr>
+              @endforeach
+              
              
+            </tbody>
+          </table>
 
-
-
-
-
-
-    
   </div>
+
+
+
 
 
  

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Balance;
 use App\Models\Customer;
 use App\Models\Products;
 use App\Models\Sale;
@@ -36,7 +37,7 @@ class SaleController extends Controller
         $pro_id = $data['pro_id'];
         $pro_quantity = $data['pro_quantity'];
         $pro_sell = $data['pro_sell'];
-
+        $cus_id = $data['cus_id'];
 
         $product = Products::where('id', $pro_id)->get();
         $pro_old_qty = 0;
@@ -50,6 +51,19 @@ class SaleController extends Controller
             $product = Products::find($pro_id);
             $product->pro_quantity = $new_quantity;
             $product->save();
+
+
+
+            $be_balance = Balance::where('id', $cus_id)->get();
+            $before_balance = 0;
+            foreach ($be_balance as $be_balance) {
+                $before_balance = $be_balance->balance;
+            }
+            $new_balance = $before_balance-($pro_quantity*$pro_sell);
+            $balance = Balance::find($cus_id);
+            $balance->balance = $new_balance;
+            $balance->save();
+
             return redirect(route('sale'))->with('message','Sale Successfull');
 
 

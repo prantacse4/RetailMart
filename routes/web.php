@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BalanceController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MyHomeController;
 use App\Http\Controllers\ProductsController;
@@ -63,6 +64,8 @@ Route::post('/customer/add/store', [customerController::class, 'store'])->name('
 Route::get('/customer/edit/{id}', [customerController::class, 'edit_customer'])->name('edit_customer');
 Route::put('/customer/update/{customer}', [customerController::class, 'updatecustomer'])->name('customer_update');
 
-
+Route::get('/balance', [BalanceController::class, 'balance'])->name('balance');
+Route::get('/add_balance', [BalanceController::class, 'add_balance'])->name('add_balance');
+Route::post('/balance/add/store', [BalanceController::class, 'store'])->name('balance_store');
 
 Route::get('/getProductDetails/{id}', [SaleController::class, 'getProductDetails'])->name('getProductDetails');
